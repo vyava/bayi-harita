@@ -1,0 +1,67 @@
+include mixin/list.pug
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title TAPDK Bayi Listesi
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous")
+    include style.html    
+  body
+    //- Loads data
+    - var data = require("./data.json");
+    - var HEADERS = [{name : "HEPSİ",className : "bayi-list-item"},{name : "FAAL",className : "aktif"},{name : "ONAYDA",className : "pasif"},{name : "İPTAL",className : "iptal"}]
+
+    div(class="container-fluid")
+      div(class="row h-100" style={position:'relative'})
+        div(class="col-md-8 col-sm-12 map-container")
+          //- i(class="fa fa-camera-retro") i
+          div(id="map")  
+        div(class="col-md-4" id="list-container")
+          nav(class="navbar navbar-dark justify-content-center p-0" id="sidebar")
+            div(class="sticky-top text-white navbar w-100 shadow bg-white rounded" id="filter")
+              //- Loads mixin header
+              +list_header(HEADERS, 0)
+            div(class="list-group w-100" id="list")
+              //- Loads mixin body
+              +list_body(data.bayiler)
+        
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4f9jG3LJAqo4qcwg5KV8WnxwNZhKAQT0&")
+    script(src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js")
+
+    script.
+      function selectElementContents(el, event) {
+          var body = document.body, range, sel;
+          if (document.createRange && window.getSelection) {
+              range = document.createRange();
+              sel = window.getSelection();
+              sel.removeAllRanges();
+              try {
+                  range.selectNodeContents(el);
+                  sel.addRange(range);
+              } catch (e) {
+                  range.selectNode(el);
+                  sel.addRange(range);
+              }
+              document.execCommand("copy");
+              event.target.classList.remove("badge-primary");
+              event.target.classList.add("badge-success");
+              event.target.innerText = "Tamam"
+
+          } else if (body.createTextRange) {
+              range = body.createTextRange();
+              range.moveToElementText(el);
+              range.select();
+              range.execCommand("Copy");
+              event.target.classList.remove("badge-primary");
+              event.target.classList.add("badge-success");
+              event.target.innerText = "Tamam"
+          }
+      }
+      
+      function resetClipboard(event){
+        event.target.classList.remove("badge-success");
+        event.target.classList.add("badge-primary");
+        event.target.innerText = "Kopyala"
+      }

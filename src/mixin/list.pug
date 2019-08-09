@@ -1,0 +1,14 @@
+mixin list_header(headers, active)
+    ul(class="nav nav-pills nav-justified w-100")
+        each header, index in headers
+            li(class="nav-item")
+                a(class=(index == active ? `nav-link active` : `nav-link`) id=`${header.className}` href="javascript:;")= header.name
+
+mixin list_body(bayiler)
+    each bayi in bayiler
+        a(href="javascript:;"
+            class=`list-group-item list-group-item-action bayi-list-item text-nowrap ${(bayi.durum == 'FAAL'? 'aktif' : (bayi.durum == 'ONAY BEKLİYOR' ? 'pasif' : 'iptal'))}`
+            data-durum=`${(bayi.durum == 'FAAL'? 'aktif' : (bayi.durum == 'ONAY BEKLİYOR' ? 'pasif' : 'iptal'))}`
+            id= bayi.ruhsatNo
+            rel="bayiler"
+            data-info= JSON.stringify(bayi)) #[span(class=`badge badge-${(bayi.durum == 'FAAL'? 'success' : (bayi.durum == 'ONAY BEKLİYOR' ? 'warning' : 'danger'))} badge-pill` style={'width':'60px'}) #{bayi.tip}] #{bayi.unvan}
