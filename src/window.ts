@@ -14,7 +14,6 @@ class InfoWindowObject {
   }
   // Create InfoWindow instance for marker
   public setInfoWindow(data: Object = this.DEFAULT_CONTENT) {
-    console.log(data);
     const content = `
       <div style="width:350px;min-height:270px" class="table-responsive">
         <h5>${data["unvan"]}</h5>

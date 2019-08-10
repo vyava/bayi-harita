@@ -7,7 +7,7 @@ import {Iterate, Utils} from "./utils";
 
 var map: google.maps.Map;
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
   // Instance of Map
   const MapObject = new Map();
   map = MapObject.init();
